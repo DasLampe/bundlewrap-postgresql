@@ -46,6 +46,10 @@ for role in node.metadata.get('postgresql', {}).get('roles', []):
     postgres_roles[role['name']] = {
         'superuser': role.get('superuser', False),
         'password': role['password'],
+        'needs': [
+            "pkg_yum:postgresql-server",
+            "action:postgresql_initdb",
+        ],
     }
 
 postgres_dbs = {}
@@ -53,4 +57,8 @@ postgres_dbs = {}
 for db in node.metadata.get('postgresql', {}).get('databases', []):
     postgres_dbs[db['name']] = {
         'owner': db.get('owner', 'postgres'),
+        'needs': [
+            "pkg_yum:postgresql-server",
+            "action:postgresql_initdb",
+        ],
     }

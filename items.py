@@ -35,7 +35,6 @@ actions = {
         'unless': "ls /var/lib/pgsql/initdb_postgresql.log",
         'needs': [
             "pkg_yum:postgresql-server",
-            "file:/var/lib/pgsql/data/pg_hba.conf"
         ],
     },
 }

@@ -1,4 +1,4 @@
-pkg_yum = {
+pkg_dnf = {
     "postgresql": {},
     "postgresql-server": {
     },
@@ -8,7 +8,7 @@ svc_systemd = {
     'postgresql': {
         'enabled': True,
         'needs': [
-            "pkg_yum:postgresql-server",
+            "pkg_dnf:postgresql-server",
             "action:postgresql_initdb",
         ],
     },
@@ -21,7 +21,7 @@ files = {
         'group': "postgres",
         'mode': "0600",
         'needs': [
-            "pkg_yum:postgresql-server",
+            "pkg_dnf:postgresql-server",
         ],
         'triggers': [
             "svc_systemd:postgresql:restart",
@@ -34,7 +34,7 @@ actions = {
         'command': "postgresql-setup --initdb --unit postgresql",
         'unless': "ls /var/lib/pgsql/initdb_postgresql.log",
         'needs': [
-            "pkg_yum:postgresql-server",
+            "pkg_dnf:postgresql-server",
         ],
     },
 }
@@ -46,7 +46,7 @@ for role in node.metadata.get('postgresql', {}).get('roles', []):
         'superuser': role.get('superuser', False),
         'password': role['password'],
         'needs': [
-            "pkg_yum:postgresql-server",
+            "pkg_dnf:postgresql-server",
             "action:postgresql_initdb",
         ],
     }
@@ -57,7 +57,7 @@ for db in node.metadata.get('postgresql', {}).get('databases', []):
     postgres_dbs[db['name']] = {
         'owner': db.get('owner', 'postgres'),
         'needs': [
-            "pkg_yum:postgresql-server",
+            "pkg_dnf:postgresql-server",
             "action:postgresql_initdb",
         ],
     }

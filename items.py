@@ -61,3 +61,14 @@ for db in node.metadata.get('postgresql', {}).get('databases', []):
             "action:postgresql_initdb",
         ],
     }
+
+if node.has_bundle("monit"):
+    files['/etc/monit.d/postgresql'] = {
+        'source': "monit",
+        'mode': "0640",
+        'owner': "root",
+        'group': "root",
+        'triggers': [
+            "svc_systemd:monit:restart",
+        ],
+    }

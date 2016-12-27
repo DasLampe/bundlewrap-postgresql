@@ -1,0 +1,57 @@
+# postgresql
+
+  check process postgresql
+    matching "/usr/bin/postgres"
+    start program = "/usr/bin/systemctl start postgresql"
+    stop program  = "/usr/bin/systemctl stop postgresql"
+    if cpu > 10% for 2 cycles then alert
+    if cpu > 20% for 5 cycles then restart
+    if 3 restarts within 5 cycles then timeout
+
+  check process postgresql-logger
+    matching "postgres: logger process"
+    start program = "/usr/bin/systemctl start postgresql"
+    stop program  = "/usr/bin/systemctl stop postgresql"
+    if cpu > 10% for 2 cycles then alert
+    if cpu > 20% for 5 cycles then restart
+    if 3 restarts within 5 cycles then timeout
+
+  check process postgresql-checkpointer
+    matching "postgres: checkpointer process"
+    start program = "/usr/bin/systemctl start postgresql"
+    stop program  = "/usr/bin/systemctl stop postgresql"
+    if cpu > 10% for 2 cycles then alert
+    if cpu > 20% for 5 cycles then restart
+    if 3 restarts within 5 cycles then timeout
+
+  check process postgresql-writer
+    matching "postgres: writer process"
+    start program = "/usr/bin/systemctl start postgresql"
+    stop program  = "/usr/bin/systemctl stop postgresql"
+    if cpu > 10% for 2 cycles then alert
+    if cpu > 20% for 5 cycles then restart
+    if 3 restarts within 5 cycles then timeout
+
+  check process postgresql-walwriter
+    matching "postgres: wal writer process"
+    start program = "/usr/bin/systemctl start postgresql"
+    stop program  = "/usr/bin/systemctl stop postgresql"
+    if cpu > 10% for 2 cycles then alert
+    if cpu > 20% for 5 cycles then restart
+    if 3 restarts within 5 cycles then timeout
+
+  check process postgresql-autovacuumlauncher
+    matching "postgres: autovacuum launcher process"
+    start program = "/usr/bin/systemctl start postgresql"
+    stop program  = "/usr/bin/systemctl stop postgresql"
+    if cpu > 10% for 2 cycles then alert
+    if cpu > 20% for 5 cycles then restart
+    if 3 restarts within 5 cycles then timeout
+
+  check process postgresql-statscollector
+    matching "postgres: stats collector process"
+    start program = "/usr/bin/systemctl start postgresql"
+    stop program  = "/usr/bin/systemctl stop postgresql"
+    if cpu > 10% for 2 cycles then alert
+    if cpu > 20% for 5 cycles then restart
+    if 3 restarts within 5 cycles then timeout

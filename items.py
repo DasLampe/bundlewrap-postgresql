@@ -72,3 +72,21 @@ if node.has_bundle("monit"):
             "svc_systemd:monit:restart",
         ],
     }
+
+if node.has_bundle("collectd") and node.metadata.get('postgresql', {}).get('collectd', False):
+
+    pkg_dnf['collectd-postgresql'] = {}
+
+    files['/etc/collectd.d/postgresql.conf'] = {
+        'source': "collectd.conf",
+        'mode': "0640",
+        'owner': "root",
+        'group': "root",
+        'content_type': "mako",
+        'needs': [
+            "pkg_dnf:collectd-postgresql",
+        ],
+        'triggers': [
+            "svc_systemd:collectd:restart",
+        ],
+    }

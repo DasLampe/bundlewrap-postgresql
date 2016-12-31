@@ -41,21 +41,21 @@ actions = {
 
 postgres_roles = {}
 
-for role in node.metadata.get('postgresql', {}).get('roles', []):
-    postgres_roles[role['name']] = {
-        'superuser': role.get('superuser', False),
-        'password': role['password'],
+postgres_dbs = {}
+
+for name, config in node.metadata.get('postgresql', {}).get('roles', {}).items():
+    postgres_roles[name] = {
+        'superuser': config.get('superuser', False),
+        'password': config['password'],
         'needs': [
             "pkg_dnf:postgresql-server",
             "action:postgresql_initdb",
         ],
     }
 
-postgres_dbs = {}
-
-for db in node.metadata.get('postgresql', {}).get('databases', []):
-    postgres_dbs[db['name']] = {
-        'owner': db.get('owner', 'postgres'),
+for name, config in node.metadata.get('postgresql', {}).get('databases', {}).items():
+    postgres_dbs[name] = {
+        'owner': config.get('owner', 'postgres'),
         'needs': [
             "pkg_dnf:postgresql-server",
             "action:postgresql_initdb",

@@ -2,16 +2,6 @@
 
 `postgresql` installs and initializes the PostgreSQL database server.
 
-## Compatibility
-
-This bundle has been tested on the following systems:
-
-| OS          | `[x]` |
-| ----------- | ----- |
-| Fedora 24   | `[x]` |
-| Fedora 25   | `[x]` |
-| Fedberry 24 | `[X]` |
-
 ## Integrations
 
 * Bundles:

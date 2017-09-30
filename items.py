@@ -6,7 +6,6 @@ pkg_dnf = {
 
 svc_systemd = {
     'postgresql': {
-        'enabled': True,
         'needs': [
             "pkg_dnf:postgresql-server",
             "action:postgresql_initdb",
@@ -66,8 +65,6 @@ if node.has_bundle("monit"):
     files['/etc/monit.d/postgresql'] = {
         'source': "monit",
         'mode': "0640",
-        'owner': "root",
-        'group': "root",
         'triggers': [
             "svc_systemd:monit:restart",
         ],
@@ -80,8 +77,6 @@ if node.has_bundle("collectd") and node.metadata.get('postgresql', {}).get('coll
     files['/etc/collectd.d/postgresql.conf'] = {
         'source': "collectd.conf",
         'mode': "0640",
-        'owner': "root",
-        'group': "root",
         'content_type': "mako",
         'needs': [
             "pkg_dnf:collectd-postgresql",

@@ -1,0 +1,1 @@
+30 23 * * *   postgres    /opt/pg_back/pg_back -q -c /opt/pg_back/pg_back.conf

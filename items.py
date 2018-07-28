@@ -29,6 +29,10 @@ actions = {
     },
 }
 
+directories = {}
+
+git_deploy = {}
+
 postgres_roles = {}
 
 postgres_dbs = {}
@@ -44,6 +48,25 @@ for name, config in node.metadata.get('postgresql', {}).get('databases', {}).ite
     postgres_dbs[name] = {
         'owner': config.get('owner', 'postgres'),
         'needs': ['pkg_dnf:postgresql-server', 'action:postgresql_initdb'],
+    }
+
+if node.metadata.get('postgresql', {}).get('backup', True):
+    directories['/opt/pg_back'] = {}
+    directories['/var/lib/pgsql/backups'] = {
+        'owner': 'postgres',
+        'mode': '0700',
+    }
+    git_deploy['/opt/pg_back'] = {
+        'needs': ['directory:/opt/pg_back'],
+        'repo': 'https://github.com/orgrim/pg_back.git',
+        'rev': 'master',
+    }
+    files['/opt/pg_back/pg_back.conf'] = {
+        'needs': ['git_deploy:/opt/pg_back'],
+    }
+    files['/etc/cron.d/pg_back'] = {
+        'source': 'pg_back.cron',
+        'needs': ['file:/opt/pg_back/pg_back.conf'],
     }
 
 if node.has_bundle('monit'):

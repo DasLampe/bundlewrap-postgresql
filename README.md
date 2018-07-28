@@ -26,5 +26,11 @@ No metadata is required, but you can use the following options:
                     'owner': 'someuser',
                 },
             },
+            'backup': True, # optional, backups via pg_back can be disabled
         },
     }
+
+## Backups
+
+This bundle is using [pg_back](https://github.com/orgrim/pg_back) to perform daily backups of all databases.
+Currently backups can be disabled, but not configured.

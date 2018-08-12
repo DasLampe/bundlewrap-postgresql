@@ -55,18 +55,19 @@ if node.metadata.get('postgresql', {}).get('backup', True):
     directories['/var/lib/pgsql/backups'] = {
         'owner': 'postgres',
         'mode': '0700',
+        'needs': ['pkg_dnf:postgresql-server', ],
     }
     git_deploy['/opt/pg_back'] = {
-        'needs': ['directory:/opt/pg_back'],
+        'needs': ['pkg_dnf:postgresql-server', 'directory:/opt/pg_back'],
         'repo': 'https://github.com/orgrim/pg_back.git',
         'rev': 'master',
     }
     files['/opt/pg_back/pg_back.conf'] = {
-        'needs': ['git_deploy:/opt/pg_back'],
+        'needs': ['pkg_dnf:postgresql-server', 'git_deploy:/opt/pg_back'],
     }
     files['/etc/cron.d/pg_back'] = {
         'source': 'pg_back.cron',
-        'needs': ['file:/opt/pg_back/pg_back.conf'],
+        'needs': ['pkg_dnf:postgresql-server', 'file:/opt/pg_back/pg_back.conf'],
     }
 
 if node.has_bundle('monit'):
